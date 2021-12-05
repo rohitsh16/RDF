@@ -1,22 +1,22 @@
 from binascii import hexlify as _bytes2hexstr, unhexlify as _hexstr2bytes
-from datetime import timedelta as _timedelta
-from urllib import quote as _pct_encoded
+from datetime import timedelta
+from urllib import quote
 
 import rdflib as _rdf
 import spruce.datetime as _sdt
 import sqlalchemy as _sqla
 
-
+# check if instance is SQL
 def rdf_datatype_from_sql(sql_type):
 
     if not isinstance(sql_type, type):
-        sql_type = sql_type.__class__
+        sql_type = sql_type.__class__  # reference to the type of the current instance
 
     return _rdf_datatype_from_sql(sql_type)
 
-
+# for encoding the IRI
 def iri_safe(string):
-    return _pct_encoded(unicode(string).encode('utf8'))
+    return quote(unicode(string).encode('utf8'))
 
 
 def rdf_datatypes_from_sql(sql_type):
@@ -26,7 +26,7 @@ def rdf_datatypes_from_sql(sql_type):
 
     return tuple(_rdf_datatypes_from_sql(sql_type))
 
-
+# 
 def rdf_literal_from_sql(literal, sql_type):
 
     if not isinstance(sql_type, type):
@@ -34,7 +34,7 @@ def rdf_literal_from_sql(literal, sql_type):
 
     return _rdf_literal_from_sql_func(sql_type)(literal)
 
-
+# 
 def sql_literal_from_rdf(literal):
     try:
         sql_literal_from_rdf_ = \
@@ -48,19 +48,18 @@ def sql_literal_from_rdf(literal):
     else:
         return sql_literal_from_rdf_(literal)
 
-
+# 
 def sql_literal_types_from_rdf(datatype):
-    return tuple(SQL_Literal_RDF_DataType.get(datatype,
-                                                        (_sqla.String,)))
+    return tuple(SQL_Literal_RDF_DataType.get(datatype, (_sqla.String,)))
 
-
+# 
 def inspect_rdf(orm_entity):
     try:
         return orm_entity.__rdf_mapper__
     except AttributeError:
         return None
 
-
+# 
 def _rdf_datatype_from_sql(sql_type):
     try:
         return RDF_DataType_SQL_Type[sql_type]
@@ -69,7 +68,7 @@ def _rdf_datatype_from_sql(sql_type):
         RDF_DataType_SQL_Type[sql_type] = datatype
         return datatype
 
-
+# 
 def _rdf_datatypes_from_sql(sql_type):
     try:
         return _RDF_DATATYPES_BY_SQL_TYPE[sql_type]
@@ -78,7 +77,7 @@ def _rdf_datatypes_from_sql(sql_type):
         _RDF_DATATYPES_BY_SQL_TYPE[sql_type] = datatype
         return datatype
 
-
+# 
 def _rdf_literal_from_sql_func(sql_type):
     try:
         return RDF_From_SQLfunc_SQL_Type[sql_type]
@@ -89,7 +88,7 @@ def _rdf_literal_from_sql_func(sql_type):
             rdf_literal_from_sql
         return rdf_literal_from_sql
 
-
+# convert time to rdf literal
 def _rdf_duration_from_timedelta(td):
     if td.days == td.seconds == 0:
         return _rdf.Literal('PT0S', datatype=_rdf.XSD.dayTimeDuration)
@@ -238,7 +237,7 @@ def _timedelta_from_rdf_duration(literal):
                           ' literal that matches the format {!r}'
                           .format(literal, _sdt.ISO8601_DURATION_RE.pattern))
 
-    return _timedelta(years=int(match.group('years') or 0),
+    return timedelta(years=int(match.group('years') or 0),
                       months=int(match.group('months') or 0),
                       days=int(match.group('days') or 0),
                       hours=int(match.group('hours') or 0),
