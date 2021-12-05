@@ -1,9 +1,8 @@
-# RDF Project
-
-Project to convert RDBMS data to RDF
+# RDB to RDF Conversion
 
 ```
 Few Resources to help with this project: 
+```
 
 [Direct Mapping](http://www.w3.org/TR/rdb-direct-mapping/)
 
@@ -14,5 +13,3 @@ Few Resources to help with this project:
 [RDF Lib](https://rdflib.readthedocs.org/)
 
 [Tabular Data to RDF](https://www.w3.org/TR/csv2rdf/)
-
-```
