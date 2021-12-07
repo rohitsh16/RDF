@@ -6,15 +6,16 @@ import rdflib as _rdf
 import spruce.datetime as _sdt
 import sqlalchemy as _sqla
 
-# check if instance is SQL
+
 def rdf_datatype_from_sql(sql_type):
 
     if not isinstance(sql_type, type):
-        sql_type = sql_type.__class__  # reference to the type of the current instance
-
+        sql_type = sql_type.__class__ 
+        
     return _rdf_datatype_from_sql(sql_type)
 
-# for encoding the IRI
+# for Percent Encode the IRI 
+# (https://www.w3.org/TR/2012/REC-r2rml-20120927/#dfn-iri-safe)
 def iri_safe(string):
     return quote(unicode(string).encode('utf8'))
 

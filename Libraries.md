@@ -9,6 +9,8 @@ datetime --> for manipulating date and time
 
 rdflib --> Library to work with RDF data.  This library contains parsers/serializers for almost all of the known RDF serializations.
 
-sqlalchemy --> object-relational mapper for the Python programming language
+sqlalchemy --> object-relational mapper for the Python programming language. Converts data from SQL databases to Python objects. Helps in CRUD operations.
+
+psycopg2 --> PostgreSQL database adapter for Python.
 
 ```

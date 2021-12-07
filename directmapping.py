@@ -1,4 +1,3 @@
-
 import rdflib as _rdf
 import rdflib.resource as _rdf_res
 import sqlalchemy as _sqla
@@ -178,7 +177,6 @@ class OrmRdfMapper(object):
         try:
             return self._rdf_graph
         except AttributeError:
-            # FIXME
             self._rdf_graph = _rdf.Graph()
             return self._rdf_graph
 
