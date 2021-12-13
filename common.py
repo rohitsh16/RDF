@@ -6,6 +6,7 @@ import rdflib as _rdf
 import spruce.datetime as _sdt
 import sqlalchemy as _sqla
 
+# https://www.w3.org/TR/rdf11-concepts/#dfn-value-space
 
 def rdf_datatype_from_sql(sql_type):
 
